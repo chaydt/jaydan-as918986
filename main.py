@@ -1,5 +1,5 @@
 import os
-
+import random
 """
 This script will take in the users name, destination, 
 and whether or not they will be flying tomorrow
@@ -14,7 +14,6 @@ flights = {
 }
 
 locations = ['w', 'r', 'a']
-
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
 
@@ -28,10 +27,21 @@ def flight_info(dest, tomorrow):
     if tomorrow == True:
         off = 35/100*cost
         cost -= off
+        
+    randn = random.randint(5,seats-2)
+    seats -= randn
     
     return [cost, seats]
     
+
+def make_email(dest, tomorrow, name):
+    items = flight_info(dest, tomorrow)
+    cost = items[0]
+    seats = items[0]
     
+    body = f'Dear {name},\n'
+
+
 
 
 def gather_data():
@@ -67,7 +77,7 @@ def gather_data():
         clear()
 
     #get info
-    print(flight_info(dest, tomorrow))
+    make_email(dest, tomorrow, name)
 
     
     
