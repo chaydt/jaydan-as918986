@@ -18,6 +18,11 @@ clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def flight_info(dest, tomorrow):
+    """
+    gets the flight info from flights
+    """
+    
+    
     #get end flight letter
     dl = dest[:1]
     
@@ -26,20 +31,36 @@ def flight_info(dest, tomorrow):
     
     if tomorrow == True:
         off = 35/100*cost
-        cost -= off
+        costn = cost - off
         
     randn = random.randint(5,seats-2)
     seats -= randn
     
-    return [cost, seats]
+    return [round(costn, 2), seats, cost]
     
 
 def make_email(dest, tomorrow, name):
+    """
+    makes the email.
+    """
+    clear()
+    
     items = flight_info(dest, tomorrow)
     cost = items[0]
-    seats = items[0]
+    seats = items[1]
+    oldcost = items[2]
     
-    body = f'Dear {name},\n'
+    dear = f'Dear {name},'
+    bodytmr = f'Flights to {dest} are usually {oldcost}, but flying with us tomorrow they are ${cost}!'
+    body = f'Flights to {dest} start at around ${cost}, but flying with us tomorrow you can expect 35% off'
+    end = f'There are only {seats} more tickets left, so dont miss out!'
+    
+    print(dear)
+    if tomorrow: 
+        print(bodytmr)
+    else:
+        print(body)
+    print(end)
 
 
 
@@ -66,11 +87,11 @@ def gather_data():
 
     #tomorrow?
     while True:
-        tomorrow = input('Are you planning on flying today? (yes or no) ')
-        if tomorrow.lower() == 'yes':
+        tomorrow = input('Are you planning on flying today? (y or n) ')
+        if tomorrow.lower() == 'y':
             tomorrow = True
             break
-        elif tomorrow.lower() == 'no':
+        elif tomorrow.lower() == 'n':
             tomorrow = False
             break
         
