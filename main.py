@@ -13,7 +13,7 @@ flights = {
     'w':{'cost':110, 'seats':77}
 }
 
-locations = ['w', 'r', 'a']
+locations = ['wellington', 'rotorua', 'auckland']
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
 
@@ -75,6 +75,7 @@ def gather_data():
     
     #welcome user
     print(f'Welcome, {name}! ')
+    print('We can fly you from Hamilton out to\nAuckland,\nRotorua,\nWellington\n')
     
     #get destination
     while True:
