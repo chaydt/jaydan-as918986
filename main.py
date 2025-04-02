@@ -25,6 +25,10 @@ def flight_info(dest, tomorrow):
     cost = flights[dl]['cost']
     seats = flights[dl]['seats']
     
+    if tomorrow == True:
+        off = 35/100*cost
+        cost -= off
+    
     return [cost, seats]
     
     
