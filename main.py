@@ -14,12 +14,15 @@ flights = {
 }
 
 locations = ['wellington', 'rotorua', 'auckland']
+
+#makes secret function to clear screen
+#easier than full def for an if/else statement
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def flight_info(dest, tomorrow):
     """
-    gets the flight info from flights
+    gets the flight info about flight from flights
     """
     
     
@@ -79,16 +82,21 @@ def gather_data():
     Def to gather data. takes in all data stated at top.
     """
     #input name
-    name = input("Please enter your name: ")
+    while True:
+        name = input("Please enter your name: ")
+        if name.isalpha():
+            break
+        clear()
     clear()
     
-    #welcome user
-    print(f'Welcome, {name}! ')
-    print('We can fly you from Hamilton out to\nAuckland,\nRotorua,\nWellington\n')
+
     
-    #get destination
+    #welcome user and get destination
     while True:
-        dest = input('Where are you flying to? ')
+        print(f'Welcome, {name}! ')
+        print('We can fly you from Hamilton out to\nAuckland,\nRotorua,\nOr Wellington\n')
+        
+        dest = input('Where would you like to fly to? ')
         if dest.lower() in locations:
             break
         
