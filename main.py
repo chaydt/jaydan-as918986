@@ -96,7 +96,7 @@ def gather_data():
     
     #welcome user and get destination
     while True:
-        print(f'Welcome, {name}! ')
+        print(f'Welcome, {name.capitalize()}! ')
         print('We can fly you from Hamilton out to\nAuckland,\nRotorua,\nOr Wellington\n')
         
         dest = input('Where would you like to fly to? ')
