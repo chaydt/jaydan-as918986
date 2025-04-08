@@ -27,7 +27,8 @@ def flight_info(dest, tomorrow):
     
     
     #get end flight letter
-    dl = dest[:1]
+    d = dest.lower()
+    dl = d[:1]
     
     #set amount of seats and price
     cost = flights[dl]['cost']
@@ -37,6 +38,8 @@ def flight_info(dest, tomorrow):
     if tomorrow == True:
         off = 35/100*cost
         costn = cost - off
+    else:
+        costn = cost
         
     #fill n seats
     randn = random.randint(5,seats-2)
@@ -61,9 +64,9 @@ def make_email(dest, tomorrow, name):
     oldcost = items[2]
     
     #write email
-    dear = f'Dear {name},'
-    bodytmr = f'Flights to {dest} are usually {oldcost}, but flying with us tomorrow they are ${cost}!'
-    body = f'Flights to {dest} start at around ${cost}, but flying with us tomorrow you can expect 35% off'
+    dear = f'Dear {name.capitalize()},'
+    bodytmr = f'Flights to {dest.capitalize()} are usually {oldcost}, but flying with us tomorrow they are ${cost}!'
+    body = f'Flights to {dest.capitalize()} start at around ${cost}, but flying with us tomorrow you can expect 35% off.'
     end = f'There are only {seats} more tickets left, so dont miss out!'
     
     #display email
