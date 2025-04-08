@@ -109,10 +109,10 @@ def gather_data():
     #tomorrow?
     while True:
         tomorrow = input('Are you planning on flying today? (y or n) ')
-        if tomorrow.lower() == 'y':
+        if 'y' in tomorrow.lower():
             tomorrow = True
             break
-        elif tomorrow.lower() == 'n':
+        elif 'n' in tomorrow.lower():
             tomorrow = False
             break
         
