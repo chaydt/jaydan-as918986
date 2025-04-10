@@ -75,13 +75,13 @@ def make_email(dest, tomorrow, name):
     oldcost = items[2]
 
     # get flight number
-    print(flight_number(dest.lower()))
-
+    flightNumber = flight_number(dest.lower())
+    
     # write email
     dear = f'Dear {name},'
-    bodytmr = (f'Flights to {dest} are usually {oldcost},'
+    bodytmr = (f'Flights to {dest} on flight {flightNumber} are usually {oldcost},'
                f'but flying with us tomorrow they are ${cost}!')
-    body = (f'Flights to {dest} start at around ${cost}, '
+    body = (f'Flights to {dest} on flight {flightNumber} start at around ${cost}, '
             f'but flying with us tomorrow you can expect 35% off.')
     end = f'There are only {seats} more tickets left, so dont miss out!'
 
