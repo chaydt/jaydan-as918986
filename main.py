@@ -23,19 +23,20 @@ def clear():
     """Clear the screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
 def flight_number(dest):
     """Make flight number (e.g haw182)."""
-
     # get number
-    nums = random.randint(100,500)
+    nums = random.randint(100, 500)
 
     # get string
     letters = 'ha' + dest[:1]
-    
+
     # make number
     number = letters + str(nums)
-    
+
     return number
+
 
 def flight_info(dest, tomorrow):
     """Get the flight info about flight from flights."""
@@ -75,13 +76,13 @@ def make_email(dest, tomorrow, name):
     oldcost = items[2]
 
     # get flight number
-    flightNumber = flight_number(dest.lower())
-    
+    flightn = flight_number(dest.lower())
+
     # write email
     dear = f'Dear {name},'
-    bodytmr = (f'Flights to {dest} on flight {flightNumber} are usually {oldcost},'
-               f'but flying with us tomorrow they are ${cost}!')
-    body = (f'Flights to {dest} on flight {flightNumber} start at around ${cost}, '
+    bodytmr = (f'Flights to {dest} on flight {flightn} are usually '
+               f'{oldcost}, but flying with us tomorrow they are ${cost}!')
+    body = (f'Flights to {dest} on flight {flightn} start at around ${cost}, '
             f'but flying with us tomorrow you can expect 35% off.')
     end = f'There are only {seats} more tickets left, so dont miss out!'
 
