@@ -1,3 +1,5 @@
+# this github file shows pep8 changes i forgot to document. this is an old version. changes have been made since.
+
 """
 This script will take in the users name, destination,.
 
