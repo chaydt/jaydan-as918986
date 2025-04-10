@@ -23,6 +23,19 @@ def clear():
     """Clear the screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def flight_number(dest):
+    """Make flight number (e.g haw182)."""
+
+    # get number
+    nums = random.randint(100,500)
+
+    # get string
+    letters = 'ha' + dest[:1]
+    
+    # make number
+    number = letters + str(nums)
+    
+    return number
 
 def flight_info(dest, tomorrow):
     """Get the flight info about flight from flights."""
@@ -60,6 +73,9 @@ def make_email(dest, tomorrow, name):
     cost = items[0]
     seats = items[1]
     oldcost = items[2]
+
+    # get flight number
+    print(flight_number(dest.lower()))
 
     # write email
     dear = f'Dear {name},'
