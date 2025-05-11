@@ -104,7 +104,7 @@ def make_email(dest, tomorrow, name):
     print(end)
 
 
-def gather_data():
+def by_dest():
     """Gather data. takes in all data stated at top."""
     # welcome user and get destination
     while True:
@@ -134,18 +134,34 @@ def gather_data():
     make_email(dest.capitalize(), tomorrow, name.capitalize())
 
 def greet():
-    # inform
-    print('Welcome to Waikato Air Email Generator.\nThis program will make \nan'
-          ' email template for your flight.\nPlease select an option:')
-    print('[1] Enter flight information\n[2] Find flight by dest'
-          '\n[3] Print email')
-          
+    
     # get name
     while True:
         name = input("Please enter your name: ")
+        clear()
         if name.isalpha() and len(name) > 1:
             break
-          
-    choice = int(input('Please select 1, 2, or 3: '))
+    
+    # inform
+    print('Welcome to Waikato Air Email Generator.\nThis program will make \nan'
+          ' email template for your flight.\nPlease select an option:\n')
 
-gather_data()
+    while True:
+        # give info
+        print('[1] Enter flight information\n[2] Find flight by destination'
+          '\n[3] Print email')
+          
+        # check if valid
+        choice = int(input('Please select 1, 2, or 3: '))
+        clear()
+        if choice != 1 and choice != 2 and choice != 3:
+            pass
+        else:
+            break
+        
+    if choice == 1:
+        ...
+    if choice == 2:
+        by_dest(name)
+
+greet()
