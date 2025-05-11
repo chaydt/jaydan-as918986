@@ -106,14 +106,6 @@ def make_email(dest, tomorrow, name):
 
 def gather_data():
     """Gather data. takes in all data stated at top."""
-    # input name
-    while True:
-        name = input("Please enter your name: ")
-        if name.isalpha() and len(name) > 1:
-            break
-        clear()
-    clear()
-              
     # welcome user and get destination
     while True:
         print(f'Welcome, {name.capitalize()}! ')
@@ -142,9 +134,18 @@ def gather_data():
     make_email(dest.capitalize(), tomorrow, name.capitalize())
 
 def greet():
+    # inform
     print('Welcome to Waikato Air Email Generator.\nThis program will make \nan'
           ' email template for your flight.\nPlease select an option:')
     print('[1] Enter flight information\n[2] Find flight by dest'
-          '')
+          '\n[3] Print email')
+          
+    # get name
+    while True:
+        name = input("Please enter your name: ")
+        if name.isalpha() and len(name) > 1:
+            break
+          
+    choice = int(input('Please select 1, 2, or 3: '))
 
 gather_data()
