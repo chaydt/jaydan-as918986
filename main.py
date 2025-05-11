@@ -8,6 +8,7 @@ It will then make a email based off of that
 """
 import os
 import random
+from time import sleep
 
 flights = {
     'a': {'cost': 100, 'seats': 44},
@@ -104,11 +105,10 @@ def make_email(dest, tomorrow, name):
     print(end)
 
 
-def by_dest():
+def by_dest(name):
     """Gather data. takes in all data stated at top."""
-    # welcome user and get destination
+    # get destination
     while True:
-        print(f'Welcome, {name.capitalize()}! ')
         print('We can fly you from Hamilton out to\nAuckland,\nRotorua,'
               '\nOr Wellington\n')
 
@@ -130,9 +130,66 @@ def by_dest():
 
         clear()
 
-    # get info
+    # make email
     make_email(dest.capitalize(), tomorrow, name.capitalize())
+    
+def get_info():
+    while True:
+        print('The destinations we have on offer are:\nAuckland,\nRotorua,'
+              '\nOr Wellington\n')
 
+        dest = input('Where would you like to fly to? ')
+        if dest.lower() in locations:
+            break
+
+        clear()
+    
+    # seats/occupied seats
+    seats = flights[dest[:1]]['seats']
+    while True:
+        try:
+            occupied = int(input('How many seats taken up? '))
+        except:
+            print('must be a number!')
+        if occupied > seats:
+            print(f'Must be lower than {seats}')
+            sleep(2)
+        else:
+            break
+        clear()
+
+    # tomorrow?
+    while True:
+        tomorrow = input('Will the flight be today? (y or n) ')
+        if 'y' in tomorrow.lower():
+            tomorrow = True
+            break
+        elif 'n' in tomorrow.lower():
+            tomorrow = False
+            break
+        clear()
+        
+    # get % of taken seats
+    sp = occupied/seats*100
+    if sp > 45:
+        sp = 45 # cap at 45%
+    sp = round(sp, 2)
+
+    # apply discount
+    if tomorrow:
+        off = sp/100*cost
+        costn = cost - off
+    else:
+        costn = cost
+    
+    info = {
+        'cost':costn,
+        'seats':seats-occupied,
+        'tomorrow':tomorrow
+    }
+    
+    return info
+    
 def greet():
     
     # get name
@@ -160,7 +217,7 @@ def greet():
             break
         
     if choice == 1:
-        ...
+        get_info()
     if choice == 2:
         by_dest(name)
 
