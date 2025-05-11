@@ -18,7 +18,6 @@ flights = {
 locations = ['wellington', 'rotorua', 'auckland']
 
 
-# makes function to clear screen
 def clear():
     """Clear the screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -47,20 +46,26 @@ def flight_info(dest, tomorrow):
     # set amount of seats and price
     cost = flights[dl]['cost']
     seats = flights[dl]['seats']
+    
+    # fill n seats
+    randn = random.randint(5, seats-2)
+    occupied = seats - randn
+    
+    # get % of seats taken
+    sp = occupied/seats*100
+    if sp > 45:
+        sp = 45 # cap at 45%
+    sp = round(sp, 2)
 
     # apply discount
     if tomorrow:
-        off = 35/100*cost
+        off = sp/100*cost
         costn = cost - off
     else:
         costn = cost
 
-    # fill n seats
-    randn = random.randint(5, seats-2)
-    seats -= randn
-
     # return data
-    return [round(costn, 2), seats, cost]
+    return [round(costn, 2), occupied, cost]
 
 
 def make_email(dest, tomorrow, name):
@@ -74,6 +79,10 @@ def make_email(dest, tomorrow, name):
     cost = items[0]
     seats = items[1]
     oldcost = items[2]
+    
+    # add a 0 to the end of cost if decimal place present
+    if '.' in str(cost)[-2:]:
+        cost = str(cost) + '0'
 
     # get flight number
     flightn = flight_number(dest.lower())
@@ -100,11 +109,11 @@ def gather_data():
     # input name
     while True:
         name = input("Please enter your name: ")
-        if name.isalpha():
+        if name.isalpha() and len(name) > 1:
             break
         clear()
     clear()
-
+              
     # welcome user and get destination
     while True:
         print(f'Welcome, {name.capitalize()}! ')
@@ -132,5 +141,10 @@ def gather_data():
     # get info
     make_email(dest.capitalize(), tomorrow, name.capitalize())
 
+def greet():
+    print('Welcome to Waikato Air Email Generator.\nThis program will make \nan'
+          ' email template for your flight.\nPlease select an option:')
+    print('[1] Enter flight information\n[2] Find flight by dest'
+          '')
 
 gather_data()
