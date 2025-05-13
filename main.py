@@ -198,17 +198,19 @@ def get_info():
         'seats':seats-occupied,
         'tomorrow':tomorrow
     }
-    return info
+    email = make_email(dest, tomorrow, name, display=2)
+    return email
   
     
-def greet():
+def greet(ask=True):
     
     # get name
-    while True:
-        name = input("Please enter your name: ")
-        clear()
-        if name.isalpha() and len(name) > 1 and len(name) <= 10:
-            break
+    if ask:
+        while True:
+            name = input("Please enter your name: ")
+            clear()
+            if name.isalpha() and len(name) > 1 and len(name) <= 10:
+                break
     
     # inform
     print('Welcome to Waikato Air Email Generator.\nThis program will make \nan'
@@ -222,18 +224,26 @@ def greet():
         # check if valid
         try:
             choice = int(input('Please select 1, 2, or 3: '))
+        
+            if choice != 1 and choice != 2 and choice != 3:
+                pass
+            else:
+                break
         except:
+            clear()
             pass
-        clear()
-        if choice != 1 and choice != 2 and choice != 3:
-            pass
-        else:
-            break
-    
+    email=''
     # let user choose  
     if choice == 1:
-        get_info()
+        clear()
+        email = get_info()
     if choice == 2:
         by_dest(name)
-
+    if choice == 3 and email != '':
+        print(email)
+    elif email == '':
+        print('Please enter flight information first!')
+        sleep(1)
+        clear()
+        greet(False)
 greet()
