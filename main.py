@@ -197,16 +197,12 @@ def get_info(name):
         costn = cost - off
     else:
         costn = cost
-    
-    info = {
-        'cost':costn,
-        'seats':seats-occupied,
-        'tomorrow':tomorrow
-    }
+
     make_email(dest.capitalize(), tomorrow, name, display=2)
+    print('Email made!\n')
   
     
-def greet(ask=True):
+def greet(ask=True, informed=False):
     
     # get name
     if ask:
@@ -217,8 +213,11 @@ def greet(ask=True):
                 break
     while True:
         # inform
-        print('Welcome to Waikato Air Email Generator.\nThis program will make \nan'
-              ' email template for your flight.\nPlease select an option:\n')
+        if not informed:
+            print('Welcome to Waikato Air Email Generator.' 
+                  '\nThis program will make \nan'
+                  ' email template for your flight.'
+                  '\nPlease select an option:\n')
         
         while True:
             # give info
@@ -229,7 +228,7 @@ def greet(ask=True):
             try:
                 choice = int(input('Please select 1, 2, 3, or 4: '))
             
-                if choice != 1 and choice != 2 and choice != 3:
+                if choice != 1 and choice != 2 and choice != 3 and choice != 4:
                     pass
                 else:
                     break
@@ -243,6 +242,8 @@ def greet(ask=True):
             get_info(name.capitalize())
         if choice == 2:
             by_dest(name)
+        if choice == 4:
+            break
         if choice == 3 and global_email != '':
             clear()
             print(global_email, '\n')
@@ -250,7 +251,6 @@ def greet(ask=True):
             print('Please enter flight information first!')
             sleep(1)
             clear()
-            greet(False)
-        if choice == 4:
-            break
+            greet(ask=False)
+
 greet()
