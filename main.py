@@ -144,7 +144,7 @@ def by_dest(name):
         clear()
 
     # make email
-    make_email(dest.capitalize(), tomorrow, name.capitalize())
+    make_email(dest.capitalize(), tomorrow, name.capitalize(), display=2)
     
 def get_info(name):
     while True:
@@ -218,7 +218,7 @@ def greet(ask=True, informed=False):
                   '\nThis program will make \nan'
                   ' email template for your flight.'
                   '\nPlease select an option:\n')
-        
+        informed = True
         while True:
             # give info
             print('[1] Enter flight information\n[2] Find flight by destination'
@@ -241,6 +241,7 @@ def greet(ask=True, informed=False):
             clear()
             get_info(name.capitalize())
         if choice == 2:
+            clear()
             by_dest(name)
         if choice == 4:
             break
