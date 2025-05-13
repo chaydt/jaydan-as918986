@@ -69,7 +69,7 @@ def flight_info(dest, tomorrow):
     return [round(costn, 2), occupied, cost]
 
 
-def make_email(dest, tomorrow, name):
+def make_email(dest, tomorrow, name, display=1):
     """Make the email."""
     clear()
 
@@ -95,15 +95,24 @@ def make_email(dest, tomorrow, name):
     body = (f'Flights to {dest} on flight {flightn} start at around ${cost}, '
             f'but flying with us tomorrow you can expect 35% off.')
     end = f'There are only {seats} more tickets left, so dont miss out!'
+    email = ''
 
     # display email
-    print(dear)
-    if tomorrow:
-        print(bodytmr)
+    if display == 1:
+        print(dear)
+        if tomorrow:
+           print(bodytmr)
+        else:
+           print(body)
+        print(end)
     else:
-        print(body)
-    print(end)
-
+        email += dear+'\n'
+        if tomorrow:
+            email += bodytmr+'\n'
+        else:
+            email += body+'\n'
+        email += end
+    print(email)
 
 def by_dest(name):
     """Gather data. takes in all data stated at top."""
@@ -143,9 +152,11 @@ def get_info():
             break
 
         clear()
-    
-    # seats/occupied seats
+
+    # seats/occupied seats and cost
     seats = flights[dest[:1]]['seats']
+    cost = flights[dest[:1]]['cost']
+
     while True:
         try:
             occupied = int(input('How many seats taken up? '))
@@ -187,8 +198,8 @@ def get_info():
         'seats':seats-occupied,
         'tomorrow':tomorrow
     }
-    
     return info
+  
     
 def greet():
     
@@ -196,7 +207,7 @@ def greet():
     while True:
         name = input("Please enter your name: ")
         clear()
-        if name.isalpha() and len(name) > 1:
+        if name.isalpha() and len(name) > 1 and len(name) <= 10:
             break
     
     # inform
@@ -209,13 +220,17 @@ def greet():
           '\n[3] Print email')
           
         # check if valid
-        choice = int(input('Please select 1, 2, or 3: '))
+        try:
+            choice = int(input('Please select 1, 2, or 3: '))
+        except:
+            pass
         clear()
         if choice != 1 and choice != 2 and choice != 3:
             pass
         else:
             break
-        
+    
+    # let user choose  
     if choice == 1:
         get_info()
     if choice == 2:
