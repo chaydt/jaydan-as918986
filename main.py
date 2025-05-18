@@ -18,7 +18,8 @@ flights = {
 
 locations = ['wellington', 'rotorua', 'auckland']
 
-global_email = '' # works better than returning it through defs
+global_email = ''  # works better than returning it through defs
+
 
 def clear():
     """Clear the screen."""
@@ -48,15 +49,15 @@ def flight_info(dest, tomorrow):
     # set amount of seats and price
     cost = flights[dl]['cost']
     seats = flights[dl]['seats']
-    
+
     # fill n seats
     randn = random.randint(5, seats-2)
     occupied = seats - randn
-    
+
     # get % of seats taken
     sp = occupied/seats*100
     if sp > 45:
-        sp = 45 # cap at 45%
+        sp = 45  # cap at 45%
     sp = round(sp, 2)
 
     # apply discount
@@ -82,7 +83,7 @@ def make_email(dest, tomorrow, name, display=1):
     cost = items[0]
     seats = items[1]
     oldcost = items[2]
-    
+
     # add a 0 to the end of cost if decimal place present
     if '.' in str(cost)[-2:]:
         cost = str(cost) + '0'
@@ -93,7 +94,8 @@ def make_email(dest, tomorrow, name, display=1):
     # write email
     dear = f'Dear {name},'
     bodytmr = (f'Flights to {dest} on flight {flightn} are usually '
-               f'${oldcost}, but flying with us tomorrow they are ${cost}!')
+               f'${oldcost}, but because you are flying with us tomorrow,'
+               ' they are ${cost}!')
     body = (f'Flights to {dest} on flight {flightn} start at around ${cost}, '
             f'but flying with us tomorrow you can expect 35% off.')
     end = f'There are only {seats} more tickets left, so dont miss out!'
