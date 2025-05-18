@@ -149,6 +149,8 @@ def by_dest(name):
     make_email(dest.capitalize(), tomorrow, name.capitalize(), display=2)
     
 def get_info(name):
+    """Get the information for flight to be made into email."""
+    
     while True:
         print('The destinations we have on offer are:\nAuckland,\nRotorua,'
               '\nOr Wellington\n')
