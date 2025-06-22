@@ -16,6 +16,13 @@ flights = {
     'w': {'cost': 110, 'seats': 77}
 }
 
+userInfo = {
+    'name':'',
+    'dest':'',
+    'tomorrow':'',
+    'discount':0
+}
+
 locations = ['wellington', 'rotorua', 'auckland']
 
 global_email = ''  # works better than returning it through defs
@@ -59,6 +66,7 @@ def flight_info(dest, tomorrow):
     if sp > 45:
         sp = 45  # cap at 45%
     sp = round(sp, 2)
+    userInfo['discount'] = sp
 
     # apply discount
     if tomorrow:
@@ -68,10 +76,10 @@ def flight_info(dest, tomorrow):
         costn = cost
 
     # return data
-    return [round(costn, 2), occupied, cost]
+    return [round(costn, 2), occupied, cost, seats]
 
 
-def make_email(dest, tomorrow, name, display=1):
+def make_email(dest, tomorrow, name, occupied=-1, display=1):
     """Make the email."""
     global global_email
     clear()
@@ -83,6 +91,9 @@ def make_email(dest, tomorrow, name, display=1):
     cost = items[0]
     seats = items[1]
     oldcost = items[2]
+    fullSeats = items[3]
+    if occupied > 0:
+        seats = fullSeats - occupied
 
     # add a 0 to the end of cost if decimal place present
     if '.' in str(cost)[-2:]:
@@ -95,7 +106,7 @@ def make_email(dest, tomorrow, name, display=1):
     dear = f'Dear {name},'
     bodytmr = (f'Flights to {dest} on flight {flightn} are usually '
                f'${oldcost}, but because you are flying with us tomorrow,'
-               ' they are ${cost}!')
+               f' they are ${cost}!')
     body = (f'Flights to {dest} on flight {flightn} start at around ${cost}, '
             f'but flying with us tomorrow you can expect 35% off.')
     end = f'There are only {seats} more tickets left, so dont miss out!'
@@ -118,6 +129,7 @@ def make_email(dest, tomorrow, name, display=1):
         email += end
         
     global_email = email
+    print('\nEmail Made!')
     
     
 def by_dest(name):
@@ -132,6 +144,7 @@ def by_dest(name):
             break
 
         clear()
+    userInfo['dest'] = dest
 
     # tomorrow?
     while True:
@@ -144,6 +157,7 @@ def by_dest(name):
             break
 
         clear()
+    userInfo['tomorrow'] = tomorrow
 
     # make email
     make_email(dest.capitalize(), tomorrow, name.capitalize(), display=2)
@@ -161,6 +175,7 @@ def get_info(name):
             break
 
         clear()
+    userInfo['dest'] = dest
 
     # seats/occupied seats and cost
     seats = flights[dest[:1]]['seats']
@@ -168,7 +183,7 @@ def get_info(name):
 
     while True:
         try:
-            occupied = int(input(f'How many seats taken up? (out of {seats}) '))
+            occupied = int(input(f'How many seats taken up? (up to {seats-1}) '))
         except:
             print('must be a number!')
         if occupied >= seats:
@@ -188,13 +203,15 @@ def get_info(name):
             tomorrow = False
             break
         clear()
+    userInfo['tomorrow'] = True
         
     # get % of taken seats
     sp = occupied/seats*100
     if sp > 45:
         sp = 45 # cap at 45%
     sp = round(sp, 2)
-
+    userInfo['discount'] = sp
+    
     # apply discount
     if tomorrow:
         off = sp/100*cost
@@ -202,8 +219,8 @@ def get_info(name):
     else:
         costn = cost
 
-    make_email(dest.capitalize(), tomorrow, name, display=2)
-    print('Email made!\n')
+    make_email(dest.capitalize(), tomorrow, name, occupied, display=2)
+    #print('Email made!\n')
   
     
 def greet(ask=True, informed=False):
@@ -215,6 +232,8 @@ def greet(ask=True, informed=False):
             clear()
             if name.isalpha() and len(name) > 1 and len(name) <= 10:
                 break
+            
+    userInfo['name'] = name
     while True:
         # inform
         if not informed:
@@ -252,6 +271,7 @@ def greet(ask=True, informed=False):
         if choice == 3 and global_email != '':
             clear()
             print(global_email, '\n')
+            break
         elif global_email == '':
             print('Please enter flight information first!')
             sleep(1)
