@@ -76,13 +76,19 @@ def flight_info(dest, tomorrow):
         costn = cost
 
     # return data
-    return [round(costn, 2), occupied, cost, seats]
+    return [round(costn, 2), occupied, cost, seats, sp]
 
 
-def make_email(dest, tomorrow, name, occupied=-1, display=1):
+def make_email(occupied=-1, display=1):
     """Make the email."""
     global global_email
     clear()
+    
+    # set variables from userInfo
+    name = userInfo['name']
+    dest = userInfo['dest']
+    tomorrow = userInfo['tomorrow']
+    discount = userInfo["discount"]
 
     # gets items from flight info
     items = flight_info(dest, tomorrow)
@@ -92,6 +98,7 @@ def make_email(dest, tomorrow, name, occupied=-1, display=1):
     seats = items[1]
     oldcost = items[2]
     fullSeats = items[3]
+    
     if occupied > 0:
         seats = fullSeats - occupied
 
@@ -108,7 +115,7 @@ def make_email(dest, tomorrow, name, occupied=-1, display=1):
                f'${oldcost}, but because you are flying with us tomorrow,'
                f' they are ${cost}!')
     body = (f'Flights to {dest} on flight {flightn} start at around ${cost}, '
-            f'but flying with us tomorrow you can expect 35% off.')
+            f'but flying with us tomorrow you can expect {discount}% off.')
     end = f'There are only {seats} more tickets left, so dont miss out!'
     email = ''
 
@@ -132,7 +139,7 @@ def make_email(dest, tomorrow, name, occupied=-1, display=1):
     print('\nEmail Made!')
     
     
-def by_dest(name):
+def by_dest():
     """Gather data. takes in all data stated at top."""
     # get destination
     while True:
@@ -144,7 +151,7 @@ def by_dest(name):
             break
 
         clear()
-    userInfo['dest'] = dest
+    userInfo['dest'] = dest.capitalize()
 
     # tomorrow?
     while True:
@@ -160,9 +167,9 @@ def by_dest(name):
     userInfo['tomorrow'] = tomorrow
 
     # make email
-    make_email(dest.capitalize(), tomorrow, name.capitalize(), display=2)
+    make_email(display=2)
     
-def get_info(name):
+def get_info():
     """Get the information for flight to be made into email."""
     
     while True:
@@ -175,7 +182,7 @@ def get_info(name):
             break
 
         clear()
-    userInfo['dest'] = dest
+    userInfo['dest'] = dest.capitalize()
 
     # seats/occupied seats and cost
     seats = flights[dest[:1]]['seats']
@@ -183,10 +190,11 @@ def get_info(name):
 
     while True:
         try:
-            occupied = int(input(f'How many seats taken up? (up to {seats-1}) '))
+            taken = int(input('How many seats taken up?'
+                             f'(must be lower than {seats}) '))
         except:
             print('must be a number!')
-        if occupied >= seats:
+        if taken >= seats:
             print(f'Must be lower than {seats}')
             sleep(2)
         else:
@@ -198,15 +206,17 @@ def get_info(name):
         tomorrow = input('Will the flight be today? (y or n) ')
         if 'y' in tomorrow.lower():
             tomorrow = True
+            userInfo['tomorrow'] = True
             break
         elif 'n' in tomorrow.lower():
             tomorrow = False
+            userInfo['tomorrow'] = False
             break
         clear()
-    userInfo['tomorrow'] = True
+    
         
     # get % of taken seats
-    sp = occupied/seats*100
+    sp = taken/seats*100
     if sp > 45:
         sp = 45 # cap at 45%
     sp = round(sp, 2)
@@ -219,7 +229,7 @@ def get_info(name):
     else:
         costn = cost
 
-    make_email(dest.capitalize(), tomorrow, name, occupied, display=2)
+    make_email(occupied=taken, display=2)
     #print('Email made!\n')
   
     
@@ -231,11 +241,12 @@ def greet(ask=True, informed=False):
             name = input("Please enter your name: ")
             clear()
             if name.isalpha() and len(name) > 1 and len(name) <= 10:
+                userInfo['name'] = name.capitalize()
                 break
-            
-    userInfo['name'] = name
+    else:
+        name = userInfo['name']
     while True:
-        # inform
+        # inform 
         if not informed:
             print('Welcome to Waikato Air Email Generator.' 
                   '\nThis program will make \nan'
@@ -252,6 +263,7 @@ def greet(ask=True, informed=False):
                 choice = int(input('Please select 1, 2, 3, or 4: '))
             
                 if choice != 1 and choice != 2 and choice != 3 and choice != 4:
+                    clear()
                     pass
                 else:
                     break
@@ -262,20 +274,22 @@ def greet(ask=True, informed=False):
         # let user choose  
         if choice == 1:
             clear()
-            get_info(name.capitalize())
+            get_info()
         if choice == 2:
             clear()
-            by_dest(name)
+            by_dest()
         if choice == 4:
             break
         if choice == 3 and global_email != '':
             clear()
             print(global_email, '\n')
+            print(userInfo)
             break
         elif global_email == '':
             print('Please enter flight information first!')
             sleep(1)
             clear()
             greet(ask=False)
+
 
 greet()
