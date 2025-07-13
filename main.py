@@ -17,10 +17,10 @@ flights = {
 }
 
 userInfo = {
-    'name':'',
-    'dest':'',
-    'tomorrow':'',
-    'discount':0
+    'name': '',
+    'dest': '',
+    'tomorrow': '',
+    'discount': 0
 }
 
 locations = ['wellington', 'rotorua', 'auckland']
@@ -83,7 +83,7 @@ def make_email(occupied=-1, display=1):
     """Make the email."""
     global global_email
     clear()
-    
+
     # set variables from userInfo
     name = userInfo['name']
     dest = userInfo['dest']
@@ -97,10 +97,10 @@ def make_email(occupied=-1, display=1):
     cost = items[0]
     seats = items[1]
     oldcost = items[2]
-    fullSeats = items[3]
-    
+    fullseats = items[3]
+
     if occupied > 0:
-        seats = fullSeats - occupied
+        seats = fullseats - occupied
 
     # add a 0 to the end of cost if decimal place present
     if '.' in str(cost)[-2:]:
@@ -123,9 +123,9 @@ def make_email(occupied=-1, display=1):
     if display == 1:
         print(dear)
         if tomorrow:
-           print(bodytmr)
+            print(bodytmr)
         else:
-           print(body)
+            print(body)
         print(end)
     else:
         email += dear+'\n'
@@ -134,11 +134,11 @@ def make_email(occupied=-1, display=1):
         else:
             email += body+'\n'
         email += end
-        
+
     global_email = email
     print('\nEmail Made!')
-    
-    
+
+
 def by_dest():
     """Gather data. takes in all data stated at top."""
     # get destination
@@ -168,10 +168,10 @@ def by_dest():
 
     # make email
     make_email(display=2)
-    
+
+
 def get_info():
     """Get the information for flight to be made into email."""
-    
     while True:
         print('The destinations we have on offer are:\nAuckland,\nRotorua,'
               '\nOr Wellington\n')
@@ -191,7 +191,7 @@ def get_info():
     while True:
         try:
             taken = int(input('How many seats taken up?'
-                             f'(must be lower than {seats}) '))
+                              f'(must be lower than {seats}) '))
         except:
             print('must be a number!')
         if taken >= seats:
@@ -213,15 +213,14 @@ def get_info():
             userInfo['tomorrow'] = False
             break
         clear()
-    
-        
+
     # get % of taken seats
     sp = taken/seats*100
     if sp > 45:
-        sp = 45 # cap at 45%
+        sp = 45  # cap at 45%
     sp = round(sp, 2)
     userInfo['discount'] = sp
-    
+
     # apply discount
     if tomorrow:
         off = sp/100*cost
@@ -230,11 +229,10 @@ def get_info():
         costn = cost
 
     make_email(occupied=taken, display=2)
-    #print('Email made!\n')
-  
-    
+
+
 def greet(ask=True, informed=False):
-    
+    """Greet user and present options"""
     # get name
     if ask:
         while True:
@@ -246,9 +244,9 @@ def greet(ask=True, informed=False):
     else:
         name = userInfo['name']
     while True:
-        # inform 
+        # inform
         if not informed:
-            print('Welcome to Waikato Air Email Generator.' 
+            print('Welcome to Waikato Air Email Generator.'
                   '\nThis program will make \nan'
                   ' email template for your flight.'
                   '\nPlease select an option:\n')
@@ -256,12 +254,12 @@ def greet(ask=True, informed=False):
         while True:
             # give info
             print('[1] Enter flight information\n[2] Find flight by destination'
-              '\n[3] Print email \n[4] Quit program')
-              
+                  '\n[3] Print email \n[4] Quit program')
+
             # check if valid
             try:
                 choice = int(input('Please select 1, 2, 3, or 4: '))
-            
+
                 if choice != 1 and choice != 2 and choice != 3 and choice != 4:
                     clear()
                     pass
@@ -270,8 +268,8 @@ def greet(ask=True, informed=False):
             except:
                 clear()
                 pass
-            
-        # let user choose  
+
+        # let user choose
         if choice == 1:
             clear()
             get_info()
@@ -283,7 +281,7 @@ def greet(ask=True, informed=False):
         if choice == 3 and global_email != '':
             clear()
             print(global_email, '\n')
-            #print(userInfo)
+            print(userInfo)
             break
         elif global_email == '':
             print('Please enter flight information first!')
