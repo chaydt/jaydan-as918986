@@ -283,7 +283,7 @@ def greet(ask=True, informed=False):
         if choice == 3 and global_email != '':
             clear()
             print(global_email, '\n')
-            print(userInfo)
+            #print(userInfo)
             break
         elif global_email == '':
             print('Please enter flight information first!')
